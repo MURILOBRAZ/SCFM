@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96570931216",
+    "project_id": "sctv-radio",
+    "storage_bucket": "sctv-radio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96570931216:android:9f8f8132b3a1b8c9c37295",
+        "android_client_info": {
+          "package_name": "com.radio.scfm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg2z_0p6lMo66Kyz-5rev3SVTAdZvGVSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

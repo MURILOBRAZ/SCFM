@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/backgroundimg">
+
+    <TextView
+        android:id="@+id/no_connection_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sem Conexão à Internet..."
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/try_again_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tentar Novamente" />
+
+    <ProgressBar
+        android:id="@+id/loading_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
+</LinearLayout>
