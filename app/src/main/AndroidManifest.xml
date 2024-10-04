@@ -14,14 +14,18 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:banner="@mipmap/banner"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.SCFM"
         tools:targetApi="31">
         <activity
-            android:name="com.example.scfm.MainActivity"
+            android:name="com.example.scfm.MainActivity1"
             android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:banner="@mipmap/banner"
             android:theme="@style/Theme.SCFM"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="sensor">
@@ -34,6 +38,9 @@
         <activity
             android:name="com.example.scfm.TvActivity"
             android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:banner="@mipmap/banner"
             tools:ignore="DuplicateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,5 +51,4 @@
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-
 </manifest>

@@ -17,11 +17,12 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.ui.PlayerControlView
 import androidx.media3.ui.PlayerView
 import com.google.firebase.firestore.FirebaseFirestore
 
-class MainActivity : Activity() {
+class MainActivity1 : Activity() {
 
     private lateinit var loadingProgressBar: ProgressBar
     private lateinit var db: FirebaseFirestore
@@ -108,28 +109,42 @@ class MainActivity : Activity() {
 
     private fun configurarPlayer(streamUrl: String) {
         if (player == null) {
-            player = ExoPlayer.Builder(this).build().also {
-                playerView.player = it
+            // Configuração do buffer para melhorar a reprodução em redes instáveis
+            val loadControl = DefaultLoadControl.Builder()
+                .setBufferDurationsMs(
+                    30000, // Mínimo de buffer para começar a reprodução (30 segundos)
+                    60000, // Máximo de buffer durante a reprodução (60 segundos)
+                    1500,  // Mínimo de buffer para iniciar a reprodução após carregar
+                    5000   // Mínimo de buffer para retomar a reprodução após uma pausa
+                )
+                .build()
 
-                val mediaItem = MediaItem.fromUri(streamUrl)
-                it.setMediaItem(mediaItem)
+            // Inicializando o ExoPlayer com o loadControl personalizado
+            player = ExoPlayer.Builder(this)
+                .setLoadControl(loadControl)
+                .build().also {
+                    playerView.player = it
 
-                it.playWhenReady = playWhenReady
-                it.seekTo(currentWindow, playbackPosition)
-                it.prepare()
+                    val mediaItem = MediaItem.fromUri(streamUrl)
+                    it.setMediaItem(mediaItem)
 
-                it.addListener(object : Player.Listener {
-                    override fun onIsPlayingChanged(isPlaying: Boolean) {
-                        if (isPlaying) {
-                            loadingProgressBar.visibility = View.GONE
-                            playerView.visibility = View.VISIBLE
-                            handler.post(checkConnectivityRunnable)
+                    it.playWhenReady = playWhenReady
+                    it.seekTo(currentWindow, playbackPosition)
+                    it.prepare()
+
+                    it.addListener(object : Player.Listener {
+                        override fun onIsPlayingChanged(isPlaying: Boolean) {
+                            if (isPlaying) {
+                                loadingProgressBar.visibility = View.GONE
+                                playerView.visibility = View.VISIBLE
+                                handler.post(checkConnectivityRunnable)
+                            }
                         }
-                    }
-                })
-            }
+                    })
+                }
         }
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -139,21 +154,22 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
         hideSystemUi()
-        if (player == null) {
-            iniciarPlayer()
-        }
+        player?.playWhenReady = true
+        iniciarPlayer()
     }
 
     override fun onPause() {
         super.onPause()
-        releasePlayer()
-        handler.removeCallbacks(checkConnectivityRunnable)
+        player?.playWhenReady = false
     }
 
     override fun onStop() {
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         releasePlayer()
-        handler.removeCallbacks(checkConnectivityRunnable)
     }
 
     fun sair(view: View) {
